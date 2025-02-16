@@ -16,6 +16,12 @@ public class RuleEngineService {
             if (kc == null) {
                 throw new RuntimeException("KieContainer creation failed");
             }
+
+            System.out.println("已加载KieBases: " + kc.getKieBaseNames());
+            // 新增包验证
+            kc.getKieBase("ProblemLocatorKB").getKiePackages().forEach(pkg -> {
+                System.out.println("规则包: " + pkg.getName() + ", 规则数量: " + pkg.getRules().size());
+            });
             
             kieSession = kc.newKieSession("ProblemLocatorKS");
             System.out.println("KieSession created: " + kieSession);

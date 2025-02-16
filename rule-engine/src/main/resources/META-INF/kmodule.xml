@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kmodule xmlns="http://www.drools.org/xsd/kmodule">
-  <kbase name="ProblemLocatorKB" packages="rules,com.example.ruleengine">
+  <kbase name="ProblemLocatorKB" packages="com.example.ruleengine,rules">
     <ksession name="ProblemLocatorKS"/>
   </kbase>
 </kmodule>
