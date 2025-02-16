@@ -1,4 +1,7 @@
 # api/locator_agent.py
+import logging
+logger = logging.getLogger(__name__)
+
 class LocatorAgent:
     def __init__(self):
         logger.info("初始化定位智能体...")
