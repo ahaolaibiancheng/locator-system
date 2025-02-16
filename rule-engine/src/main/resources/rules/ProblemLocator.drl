@@ -1,0 +1,10 @@
+package rules
+
+import com.example.ruleengine.ProblemContext
+
+rule "Sample Rule"
+when
+    $context: ProblemContext()
+then
+    $context.setConclusion("Rule fired successfully!");
+end

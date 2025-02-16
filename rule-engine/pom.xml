@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.example</groupId>
+  <artifactId>rule-engine</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+  <properties>
+    <maven.compiler.source>23</maven.compiler.source>
+    <maven.compiler.target>23</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    
+    <!-- 升级到Java 23兼容版本 -->
+    <drools.version>8.44.0.Final</drools.version>
+    <mvel.version>2.4.14.Final</mvel.version>
+    
+    <!-- 构建工具版本 -->
+    <maven.compiler.plugin.version>3.13.0</maven.compiler.plugin.version>
+    <assembly.plugin.version>3.7.1</assembly.plugin.version>
+  </properties>
+
+  <repositories>
+    <repository>
+        <id>jboss-enterprise-release</id>
+        <name>JBoss Enterprise Releases</name>
+        <url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
+        <releases>
+            <enabled>true</enabled>
+            <updatePolicy>daily</updatePolicy>
+        </releases>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
+    </repository>
+</repositories>
+
+
+  <dependencies>
+    <!-- Drools 核心依赖 -->
+    <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-core</artifactId>
+      <version>${drools.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-decisiontables</artifactId>
+      <version>${drools.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-mvel</artifactId>
+      <version>${drools.version}</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.drools</groupId>
+        <artifactId>drools-xml-support</artifactId>
+        <version>${drools.version}</version>
+    </dependency>
+
+    <dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-simple</artifactId>
+    <version>2.0.12</version>
+  </dependency>
+    
+    <!-- 强制指定MVEL版本 -->
+    <dependency>
+      <groupId>org.mvel</groupId>
+      <artifactId>mvel2</artifactId>
+      <version>${mvel.version}</version>
+    </dependency>
+
+    <!-- Java 23必要依赖 -->
+    <dependency>
+      <groupId>jakarta.xml.bind</groupId>
+      <artifactId>jakarta.xml.bind-api</artifactId>
+      <version>4.0.1</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>**/*.drl</include>
+          <include>**/*.xml</include>
+        </includes>
+      </resource>
+    </resources>
+    
+    <plugins>
+      <!-- 编译器配置 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.13.0</version>
+        <configuration>
+            <release>23</release> <!-- 关键参数 -->
+            <compilerArgs>
+                <arg>-parameters</arg>
+                <arg>--add-opens=java.base/java.lang=ALL-UNNAMED</arg>
+            </compilerArgs>
+        </configuration>
+      </plugin>
+
+      <!-- 打包插件配置 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>${assembly.plugin.version}</version>
+        <configuration>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+          <archive>
+            <manifest>
+              <mainClass>com.example.ruleengine.RuleEngineService</mainClass>
+            </manifest>
+          </archive>
+          <attachClassifier>false</attachClassifier>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

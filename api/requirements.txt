@@ -1,0 +1,6 @@
+fastapi==0.95.2
+uvicorn==0.22.0
+torch==2.0.1
+transformers==4.30.2
+grpcio-tools==1.54.2
+requests==2.28.2

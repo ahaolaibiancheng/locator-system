@@ -1,0 +1,13 @@
+package com.example.ruleengine
+
+// 显式导入需要使用的 Java 类
+import com.example.ruleengine.ProblemContext
+
+rule "Port Down Rule"
+    dialect "java" // 指定使用 Java 方言
+    when
+        $ctx: ProblemContext(log contains "interface DOWN", command contains "status=DOWN")
+    then
+        System.out.println("触发规则：端口物理层故障");
+        $ctx.setConclusion("端口物理层故障");
+end
