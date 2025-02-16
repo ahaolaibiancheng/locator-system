@@ -20,7 +20,7 @@ ALLOWED_COMMANDS = {'show interface', 'ping', 'traceroute'}
 @app.post("/diagnose")
 async def diagnose(request: dict):
     # Step 1: 规则引擎匹配
-    rule_result = rule_engine.match(request)
+    rule_result = rule_engine.execute_rule(request)
     if rule_result['matched']:
         return {"conclusion": rule_result['conclusion']}
 

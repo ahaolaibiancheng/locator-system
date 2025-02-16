@@ -7,10 +7,12 @@ service RuleEngine {
 }
 
 message RuleRequest {
-  string fault_type = 1;
-  string port = 2;
+  string raw_log = 1;      // 原始日志文本
+  string command = 2;      // 关联命令
+  string error_code = 3;   // 错误代码（可选）
 }
 
 message RuleResponse {
-  string conclusion = 1;
+  string conclusion = 1;   // 诊断结论
+  string action = 2;       // 建议操作
 }

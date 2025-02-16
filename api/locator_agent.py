@@ -1,4 +1,10 @@
-# api/locator_agent.py
+# locator_agent.py开头添加
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).parent))
+
+from grpc_client import RuleEngineClient
+
 import logging
 logger = logging.getLogger(__name__)
 
