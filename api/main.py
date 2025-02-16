@@ -4,6 +4,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.absolute()))
 # main.py
 from fastapi import FastAPI
+from locator_agent import LocatorAgent
 from grpc_client import RuleEngineClient  # 导入客户端类
 import subprocess
 
@@ -39,6 +40,11 @@ async def diagnose(request: dict):
     conclusion = _generate_conclusion(execution_log)
     _update_rules(request, conclusion)  # 触发规则自动生成
     return {"conclusion": conclusion}
+
+# main.py中修正路由
+@app.post("/analyze")
+async def analyze_fault(fault_data: dict):
+    return await locator_agent.analyze_fault(fault_data)
 
 def _validate_action(action):
     """校验命令是否在白名单内"""
