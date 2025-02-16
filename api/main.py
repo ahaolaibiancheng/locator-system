@@ -1,5 +1,10 @@
+# main.py 添加路径处理（首行添加）
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.absolute()))
 # main.py
 from fastapi import FastAPI
+from grpc_client import RuleEngineClient  # 导入客户端类
 import subprocess
 
 app = FastAPI()
